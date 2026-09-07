@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { BagOfHolding } from './bag-of-holding';
 import { CharacterPageTwo } from './character-page-two';
 import { Spellbook } from './spellbook';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -353,6 +354,7 @@ export default function Home() {
           <TabsList className="record-tab-list" aria-label="Character records">
             <TabsTrigger value="character">Character sheet</TabsTrigger>
             <TabsTrigger value="spells">Spellbook</TabsTrigger>
+            <TabsTrigger value="bag">Bag of Holding</TabsTrigger>
           </TabsList>
           <TabsContent value="character" keepMounted>
             <div
@@ -721,6 +723,14 @@ export default function Home() {
             <Spellbook
               fields={sheet.fields}
               onChange={(fields) => setSheet((s) => ({ ...s, fields }))}
+              fit={fit}
+              ready={ready}
+            />
+          </TabsContent>
+          <TabsContent value="bag" keepMounted>
+            <BagOfHolding
+              fields={sheet.fields}
+              onChange={set}
               fit={fit}
               ready={ready}
             />

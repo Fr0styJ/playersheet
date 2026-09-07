@@ -793,3 +793,49 @@ main {
     background: transparent !important;
   }
 }
+.bag-viewport {
+  width: 100%;
+  overflow: auto;
+}
+.bag-size {
+  position: relative;
+  margin: auto;
+}
+.bag-sheet {
+  width: 1103px;
+  height: 1426px;
+}
+.bag-sheet .original-image {
+  width: 1103px;
+  height: 1426px;
+}
+.bag-sheet .fitted-entry {
+  padding-bottom: 1px;
+}
+.record-tab-list {
+  flex-wrap: wrap;
+}
+.record-tab-list button {
+  white-space: nowrap;
+}
+@media (max-width: 650px) {
+  .record-tab-list button {
+    font-size: 12px;
+    padding: 10px 8px;
+    flex: 1 1 auto;
+  }
+}
+@media print {
+  .bag-viewport {
+    width: 210mm;
+    height: 271.5mm;
+    overflow: visible;
+  }
+  .bag-size {
+    width: 210mm !important;
+    height: 271.5mm !important;
+  }
+  .original-sheet.bag-sheet {
+    transform: scale(0.71958) !important;
+  }
+}
