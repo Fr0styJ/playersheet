@@ -669,3 +669,127 @@ main {
     display: none !important;
   }
 }
+.character-page-nav {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 0 14px;
+}
+.character-page-nav button {
+  border: 0;
+  background: transparent;
+  color: #627167;
+  font-size: 13px;
+  padding: 8px 16px;
+  min-height: 44px;
+}
+.character-page-nav button[aria-pressed='true'] {
+  background: #dce8df;
+  color: #183e31;
+}
+.character-document {
+  display: none;
+}
+.character-document.active {
+  display: block;
+}
+.page-two-viewport {
+  width: 100%;
+  overflow: auto;
+}
+.page-two-size {
+  position: relative;
+  margin: auto;
+}
+.page-two-sheet {
+  width: 736px;
+  height: 952px;
+}
+.page-two-sheet .original-image {
+  width: 736px;
+  height: 952px;
+}
+.page-two-sheet .fitted-entry {
+  padding: 0 1px;
+}
+.supply-box svg {
+  width: 9px;
+  height: 9px;
+}
+.map-drawing {
+  position: absolute;
+  pointer-events: none;
+}
+.map-drawing.drawing {
+  pointer-events: auto;
+  touch-action: none;
+  cursor: crosshair;
+  background: #ffffff18;
+  outline: 1px dashed #396a55;
+}
+.map-tools {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: #627167;
+}
+.map-tools button {
+  background: transparent;
+  border: 0;
+  font-size: 12px;
+  min-height: 40px;
+}
+.map-tools button[aria-pressed='true'] {
+  background: #dce8df;
+}
+.map-tools button:disabled {
+  opacity: 0.4;
+}
+.map-tools > span:last-child {
+  font-size: 11px;
+}
+@media (max-width: 650px) {
+  .map-tools {
+    gap: 2px;
+  }
+  .map-tools > span:last-child {
+    flex-basis: 100%;
+    text-align: center;
+  }
+  .map-tools button {
+    min-height: 44px;
+  }
+}
+@media print {
+  .character-page-nav,
+  .map-tools {
+    display: none !important;
+  }
+  .character-document {
+    display: block !important;
+  }
+  .character-first {
+    break-after: page;
+    page-break-after: always;
+  }
+  .page-two-viewport {
+    overflow: visible;
+    width: 210mm;
+    height: 271.64mm;
+  }
+  .page-two-size {
+    width: 210mm !important;
+    height: 271.64mm !important;
+  }
+  .original-sheet.page-two-sheet {
+    transform: scale(1.0784) !important;
+  }
+  .map-drawing {
+    outline: none !important;
+    background: transparent !important;
+  }
+}

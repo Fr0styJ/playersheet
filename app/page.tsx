@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { CharacterPageTwo } from './character-page-two';
 import { Spellbook } from './spellbook';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { FittedEntry } from './fitted-entry';
@@ -178,6 +179,7 @@ export default function Home() {
   };
 
   const [fit, setFit] = useState(true);
+  const [characterPage, setCharacterPage] = useState(1);
   const box = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(1146);
   useEffect(() => {
@@ -353,332 +355,366 @@ export default function Home() {
             <TabsTrigger value="spells">Spellbook</TabsTrigger>
           </TabsList>
           <TabsContent value="character" keepMounted>
-            <div className="sheet-viewport" ref={box}>
-              <div
-                className="sheet-size"
-                style={{ width: 1146 * scale, height: 1524 * scale }}
+            <div
+              className="character-page-nav"
+              aria-label="Character sheet pages"
+            >
+              <button
+                aria-pressed={characterPage === 1}
+                onClick={() => setCharacterPage(1)}
               >
-                <fieldset
-                  disabled={!ready}
-                  className="original-sheet"
-                  style={{ transform: `scale(${scale})` }}
-                  aria-label="AD&D 2nd Edition character record sheet"
+                1 · Character
+              </button>
+              <button
+                aria-pressed={characterPage === 2}
+                onClick={() => setCharacterPage(2)}
+              >
+                2 · Gear & notes
+              </button>
+            </div>
+            <div
+              className={`character-document character-first ${characterPage === 1 ? 'active' : ''}`}
+            >
+              <div className="sheet-viewport" ref={box}>
+                <div
+                  className="sheet-size"
+                  style={{ width: 1146 * scale, height: 1524 * scale }}
                 >
-                  <Image
-                    unoptimized
-                    className="original-image"
-                    src="/character-sheet.jpg"
-                    width="1146"
-                    height="1524"
-                    alt="Unofficial AD&D 2nd Edition character record sheet. Editable character, abilities, movement, saving throws, armor, hit points, weapons and skills fields follow."
-                  />
-                  {detailFields.map(([k, x, y, w]) => input(k, x, y, w))}
-                  {abilities.map(([abbr, name, ...mods], i) => (
-                    <div key={abbr}>
-                      {input(abbr, 40, 368 + i * 33.3, 46, 30)}
-                      <div
-                        className="modifier-row"
-                        style={position(165, 367 + i * 33.3, 397, 32)}
-                      >
-                        {mods.map((m, j) => (
-                          <label key={m}>
-                            <span>{shortMods[i][j]}</span>
-                            <FittedEntry
-                              center
-                              maxSize={16}
-                              aria-label={`${name}: ${m}`}
-                              title={`${name}: ${m}`}
-                              value={sheet.fields[abbr + ':' + m] ?? ''}
-                              onChange={(e) =>
-                                set(abbr + ':' + m, e.target.value)
-                              }
-                            />
-                          </label>
-                        ))}
+                  <fieldset
+                    disabled={!ready}
+                    className="original-sheet"
+                    style={{ transform: `scale(${scale})` }}
+                    aria-label="AD&D 2nd Edition character record sheet"
+                  >
+                    <Image
+                      unoptimized
+                      className="original-image"
+                      src="/character-sheet.jpg"
+                      width="1146"
+                      height="1524"
+                      alt="Unofficial AD&D 2nd Edition character record sheet. Editable character, abilities, movement, saving throws, armor, hit points, weapons and skills fields follow."
+                    />
+                    {detailFields.map(([k, x, y, w]) => input(k, x, y, w))}
+                    {abilities.map(([abbr, name, ...mods], i) => (
+                      <div key={abbr}>
+                        {input(abbr, 40, 368 + i * 33.3, 46, 30)}
+                        <div
+                          className="modifier-row"
+                          style={position(165, 367 + i * 33.3, 397, 32)}
+                        >
+                          {mods.map((m, j) => (
+                            <label key={m}>
+                              <span>{shortMods[i][j]}</span>
+                              <FittedEntry
+                                center
+                                maxSize={16}
+                                aria-label={`${name}: ${m}`}
+                                title={`${name}: ${m}`}
+                                value={sheet.fields[abbr + ':' + m] ?? ''}
+                                onChange={(e) =>
+                                  set(abbr + ':' + m, e.target.value)
+                                }
+                              />
+                            </label>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                  {[
-                    'Base rate',
-                    'Light',
-                    'Moderate',
-                    'Heavy',
-                    'Severe',
-                    'Jog ×2',
-                    'Run ×3',
-                    'Run ×4',
-                    'Run ×5',
-                  ].map((x, i) => (
-                    <div key={x}>
-                      {input(
-                        'move:' + x + ':rate',
-                        735,
-                        369 + i * 21.4,
-                        88,
-                        20,
-                      )}
-                      {i > 0 &&
-                        i < 5 &&
-                        input(
-                          'move:' + x + ':load',
-                          647,
-                          391 + (i - 1) * 21.4,
-                          53,
+                    ))}
+                    {[
+                      'Base rate',
+                      'Light',
+                      'Moderate',
+                      'Heavy',
+                      'Severe',
+                      'Jog ×2',
+                      'Run ×3',
+                      'Run ×4',
+                      'Run ×5',
+                    ].map((x, i) => (
+                      <div key={x}>
+                        {input(
+                          'move:' + x + ':rate',
+                          735,
+                          369 + i * 21.4,
+                          88,
                           20,
                         )}
-                    </div>
-                  ))}
-                  {[
-                    'Paralyze / poison',
-                    'Rod, staff, or wand',
-                    'Petrify / polymorph',
-                    'Breath weapon',
-                    'Spells',
-                  ].map((x, i) => (
-                    <div key={x}>
-                      {input(
-                        'save:' + x + ':modifier',
-                        873,
-                        375 + i * 37.4,
-                        49,
-                        23,
-                      )}
-                      {input(
-                        'save:' + x + ':save',
-                        1052,
-                        375 + i * 37.4,
-                        48,
-                        23,
-                      )}
-                    </div>
-                  ))}
-                  {input('AC', 61, 651, 56, 37)}
-                  {input('Adjusted AC', 273, 620, 38)}
-                  {input('Surprised', 244, 642, 63)}
-                  {input('Shieldless', 244, 665, 63)}
-                  {input('Rear', 244, 689, 63)}
-                  {text('Armor type (pieces)', 326, 642, 245, 70, 23.5)}
-                  {input('Defenses', 124, 711, 450)}
-                  {text('Current HP', 624, 648, 132, 76, 30)}
-                  {text('Wounds', 784, 642, 305, 82, 26)}
-                  {Array.from({ length: 6 }, (_, i) => {
-                    const y = 811 + i * 24.6;
-                    return (
-                      <div key={i}>
-                        {entry('weapons', i, 'Weapon', 42, y, 169)}
-                        {entry('weapons', i, 'Attacks / round', 215, y, 47)}
-                        {entry('weapons', i, 'Attack adjustment', 266, y, 77)}
-                        {entry('weapons', i, 'Damage adjustment', 344, y, 79)}
-                        {entry('weapons', i, 'THAC0', 429, y, 69)}
-                        {entry('weapons', i, 'Damage (S/M)', 503, y, 64)}
-                        {entry('weapons', i, 'Damage (L)', 580, y, 68)}
-                        {entry('weapons', i, 'Range', 654, y, 145)}
-                        {entry('weapons', i, 'Weight', 804, y, 82)}
-                        {entry('weapons', i, 'Size', 892, y, 57)}
-                        {entry('weapons', i, 'Type', 953, y, 57)}
-                        {entry('weapons', i, 'Speed', 1016, y, 82)}
+                        {i > 0 &&
+                          i < 5 &&
+                          input(
+                            'move:' + x + ':load',
+                            647,
+                            391 + (i - 1) * 21.4,
+                            53,
+                            20,
+                          )}
                       </div>
-                    );
-                  })}
-                  {input('Special attacks', 170, 983, 372)}
-                  {text('Special attacks (continued)', 51, 1009, 491, 49, 24)}
-                  {entry('ammo', 0, 'name', 676, 982, 134, 23)}
-                  {entry('ammo', 1, 'name', 825, 982, 109, 23)}
-                  {[0, 1].map((group) =>
-                    Array.from({ length: group === 0 ? 16 : 12 }, (_, n) => {
-                      const x =
-                        group === 0
-                          ? 562 + [0, 30, 60, 90, 137, 167, 197, 227][n % 8]
-                          : 983 + (n % 4) * 28;
-                      const y =
-                        group === 0
-                          ? 1013 + Math.floor(n / 8) * 24
-                          : 987 + Math.floor(n / 4) * 24;
-                      if (group === 1 && n >= 12) return null;
+                    ))}
+                    {[
+                      'Paralyze / poison',
+                      'Rod, staff, or wand',
+                      'Petrify / polymorph',
+                      'Breath weapon',
+                      'Spells',
+                    ].map((x, i) => (
+                      <div key={x}>
+                        {input(
+                          'save:' + x + ':modifier',
+                          873,
+                          375 + i * 37.4,
+                          49,
+                          23,
+                        )}
+                        {input(
+                          'save:' + x + ':save',
+                          1052,
+                          375 + i * 37.4,
+                          48,
+                          23,
+                        )}
+                      </div>
+                    ))}
+                    {input('AC', 61, 651, 56, 37)}
+                    {input('Adjusted AC', 273, 620, 38)}
+                    {input('Surprised', 244, 642, 63)}
+                    {input('Shieldless', 244, 665, 63)}
+                    {input('Rear', 244, 689, 63)}
+                    {text('Armor type (pieces)', 326, 642, 245, 70, 23.5)}
+                    {input('Defenses', 124, 711, 450)}
+                    {text('Current HP', 624, 648, 132, 76, 30)}
+                    {text('Wounds', 784, 642, 305, 82, 26)}
+                    {Array.from({ length: 6 }, (_, i) => {
+                      const y = 811 + i * 24.6;
                       return (
-                        <Checkbox
-                          className="ammo-box"
-                          key={`${group}-${n}`}
-                          aria-label={`Ammunition ${group + 1}, round ${n + 1} used`}
-                          style={position(x, y, 15, 15)}
-                          checked={
-                            sheet.ammo[group]?.values['used' + n] === 'true'
-                          }
-                          onCheckedChange={(v) =>
-                            updateRow('ammo', group, 'used' + n, String(v))
+                        <div key={i}>
+                          {entry('weapons', i, 'Weapon', 42, y, 169)}
+                          {entry('weapons', i, 'Attacks / round', 215, y, 47)}
+                          {entry('weapons', i, 'Attack adjustment', 266, y, 77)}
+                          {entry('weapons', i, 'Damage adjustment', 344, y, 79)}
+                          {entry('weapons', i, 'THAC0', 429, y, 69)}
+                          {entry('weapons', i, 'Damage (S/M)', 503, y, 64)}
+                          {entry('weapons', i, 'Damage (L)', 580, y, 68)}
+                          {entry('weapons', i, 'Range', 654, y, 145)}
+                          {entry('weapons', i, 'Weight', 804, y, 82)}
+                          {entry('weapons', i, 'Size', 892, y, 57)}
+                          {entry('weapons', i, 'Type', 953, y, 57)}
+                          {entry('weapons', i, 'Speed', 1016, y, 82)}
+                        </div>
+                      );
+                    })}
+                    {input('Special attacks', 170, 983, 372)}
+                    {text('Special attacks (continued)', 51, 1009, 491, 49, 24)}
+                    {entry('ammo', 0, 'name', 676, 982, 134, 23)}
+                    {entry('ammo', 1, 'name', 825, 982, 109, 23)}
+                    {[0, 1].map((group) =>
+                      Array.from({ length: group === 0 ? 16 : 12 }, (_, n) => {
+                        const x =
+                          group === 0
+                            ? 562 + [0, 30, 60, 90, 137, 167, 197, 227][n % 8]
+                            : 983 + (n % 4) * 28;
+                        const y =
+                          group === 0
+                            ? 1013 + Math.floor(n / 8) * 24
+                            : 987 + Math.floor(n / 4) * 24;
+                        if (group === 1 && n >= 12) return null;
+                        return (
+                          <Checkbox
+                            className="ammo-box"
+                            key={`${group}-${n}`}
+                            aria-label={`Ammunition ${group + 1}, round ${n + 1} used`}
+                            style={position(x, y, 15, 15)}
+                            checked={
+                              sheet.ammo[group]?.values['used' + n] === 'true'
+                            }
+                            onCheckedChange={(v) =>
+                              updateRow('ammo', group, 'used' + n, String(v))
+                            }
+                          />
+                        );
+                      }),
+                    )}
+                    {entry('ammo', 1, 'notes', 825, 1010, 140, 23)}
+                    {entry('ammo', 1, 'notes2', 825, 1034, 140, 23)}
+                    {text('Special abilities', 50, 1102, 238, 352, 23.8)}
+                    {text(
+                      'Special abilities (continued)',
+                      310,
+                      1102,
+                      237,
+                      352,
+                      23.8,
+                    )}
+                    {Array.from({ length: 28 }, (_, i) => {
+                      const x = i < 14 ? 590 : 849;
+                      const y = 1096 + (i % 14) * 23.7;
+                      return (
+                        <div key={i}>
+                          {entry('skills', i, 'Name', x, y, 154, 23)}
+                          {entry(
+                            'skills',
+                            i,
+                            'Rating / slots',
+                            x + 164,
+                            y,
+                            23,
+                            23,
+                          )}
+                          {entry(
+                            'skills',
+                            i,
+                            'Check / modifier',
+                            x + 200,
+                            y,
+                            23,
+                            23,
+                          )}
+                        </div>
+                      );
+                    })}
+                  </fieldset>
+                </div>
+              </div>
+              <div className="extras">
+                <p className="mobile-hint">
+                  Tap any line to edit. Use “Enlarge to edit” for larger fields;
+                  swipe across the sheet on a phone. Changes save in this
+                  browser.
+                </p>
+                <details>
+                  <summary>Additional fields & campaign notes</summary>
+                  <p>
+                    Extra entries stay here so the original sheet keeps its
+                    layout.
+                  </p>
+                  {[
+                    'Maximum HP',
+                    'Adventure notes',
+                    ...(sheet.fields['move:Base rate:load']
+                      ? ['move:Base rate:load']
+                      : []),
+                  ].map((k) => (
+                    <label key={k}>
+                      {k}
+                      <textarea
+                        value={sheet.fields[k] ?? ''}
+                        onChange={(e) => set(k, e.target.value)}
+                      />
+                    </label>
+                  ))}
+                  {(['weapons', 'skills', 'ammo'] as const).map((kind) =>
+                    sheet[kind].map((r, i) => (
+                      <details key={r.id}>
+                        <summary>
+                          {kind} {i + 1}
+                          {r.values.Weapon || r.values.Name || r.values.name
+                            ? ': ' +
+                              (r.values.Weapon ||
+                                r.values.Name ||
+                                r.values.name)
+                            : ''}
+                        </summary>
+                        {Object.entries(r.values)
+                          .filter(([key]) => !key.startsWith('used'))
+                          .map(([key, value]) => (
+                            <label key={key}>
+                              {key}
+                              <input
+                                value={value}
+                                onChange={(e) =>
+                                  updateRow(kind, i, key, e.target.value)
+                                }
+                              />
+                            </label>
+                          ))}
+                      </details>
+                    )),
+                  )}
+                  {sheet.custom.map((r, i) => (
+                    <div className="custom" key={r.id}>
+                      <label>
+                        Section title
+                        <input
+                          value={r.values.title ?? ''}
+                          onChange={(e) =>
+                            setSheet((s) => ({
+                              ...s,
+                              custom: s.custom.map((r, n) =>
+                                n === i
+                                  ? {
+                                      ...r,
+                                      values: {
+                                        ...r.values,
+                                        title: e.target.value,
+                                      },
+                                    }
+                                  : r,
+                              ),
+                            }))
                           }
                         />
-                      );
-                    }),
-                  )}
-                  {entry('ammo', 1, 'notes', 825, 1010, 140, 23)}
-                  {entry('ammo', 1, 'notes2', 825, 1034, 140, 23)}
-                  {text('Special abilities', 50, 1102, 238, 352, 23.8)}
-                  {text(
-                    'Special abilities (continued)',
-                    310,
-                    1102,
-                    237,
-                    352,
-                    23.8,
-                  )}
-                  {Array.from({ length: 28 }, (_, i) => {
-                    const x = i < 14 ? 590 : 849;
-                    const y = 1096 + (i % 14) * 23.7;
-                    return (
-                      <div key={i}>
-                        {entry('skills', i, 'Name', x, y, 154, 23)}
-                        {entry(
-                          'skills',
-                          i,
-                          'Rating / slots',
-                          x + 164,
-                          y,
-                          23,
-                          23,
-                        )}
-                        {entry(
-                          'skills',
-                          i,
-                          'Check / modifier',
-                          x + 200,
-                          y,
-                          23,
-                          23,
-                        )}
-                      </div>
-                    );
-                  })}
-                </fieldset>
+                      </label>
+                      <label>
+                        Details
+                        <textarea
+                          value={r.values.content ?? ''}
+                          onChange={(e) =>
+                            setSheet((s) => ({
+                              ...s,
+                              custom: s.custom.map((r, n) =>
+                                n === i
+                                  ? {
+                                      ...r,
+                                      values: {
+                                        ...r.values,
+                                        content: e.target.value,
+                                      },
+                                    }
+                                  : r,
+                              ),
+                            }))
+                          }
+                        />
+                      </label>
+                      <button
+                        onClick={() => {
+                          setUndo(sheet);
+                          setSheet((s) => ({
+                            ...s,
+                            custom: s.custom.filter((_, n) => n !== i),
+                          }));
+                          setNotice('Section removed.');
+                        }}
+                      >
+                        Remove section
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    onClick={() =>
+                      setSheet((s) => ({ ...s, custom: [...s.custom, row()] }))
+                    }
+                  >
+                    <Plus size={16} />
+                    Add custom section
+                  </button>
+                </details>
+                <button
+                  className="new-character"
+                  onClick={() => setPending(blank())}
+                >
+                  New character
+                </button>
               </div>
             </div>
-            <div className="extras">
-              <p className="mobile-hint">
-                Tap any line to edit. Use “Enlarge to edit” for larger fields;
-                swipe across the sheet on a phone. Changes save in this browser.
-              </p>
-              <details>
-                <summary>Additional fields & campaign notes</summary>
-                <p>
-                  Extra entries stay here so the original sheet keeps its
-                  layout.
-                </p>
-                {[
-                  'Maximum HP',
-                  'Adventure notes',
-                  ...(sheet.fields['move:Base rate:load']
-                    ? ['move:Base rate:load']
-                    : []),
-                ].map((k) => (
-                  <label key={k}>
-                    {k}
-                    <textarea
-                      value={sheet.fields[k] ?? ''}
-                      onChange={(e) => set(k, e.target.value)}
-                    />
-                  </label>
-                ))}
-                {(['weapons', 'skills', 'ammo'] as const).map((kind) =>
-                  sheet[kind].map((r, i) => (
-                    <details key={r.id}>
-                      <summary>
-                        {kind} {i + 1}
-                        {r.values.Weapon || r.values.Name || r.values.name
-                          ? ': ' +
-                            (r.values.Weapon || r.values.Name || r.values.name)
-                          : ''}
-                      </summary>
-                      {Object.entries(r.values)
-                        .filter(([key]) => !key.startsWith('used'))
-                        .map(([key, value]) => (
-                          <label key={key}>
-                            {key}
-                            <input
-                              value={value}
-                              onChange={(e) =>
-                                updateRow(kind, i, key, e.target.value)
-                              }
-                            />
-                          </label>
-                        ))}
-                    </details>
-                  )),
-                )}
-                {sheet.custom.map((r, i) => (
-                  <div className="custom" key={r.id}>
-                    <label>
-                      Section title
-                      <input
-                        value={r.values.title ?? ''}
-                        onChange={(e) =>
-                          setSheet((s) => ({
-                            ...s,
-                            custom: s.custom.map((r, n) =>
-                              n === i
-                                ? {
-                                    ...r,
-                                    values: {
-                                      ...r.values,
-                                      title: e.target.value,
-                                    },
-                                  }
-                                : r,
-                            ),
-                          }))
-                        }
-                      />
-                    </label>
-                    <label>
-                      Details
-                      <textarea
-                        value={r.values.content ?? ''}
-                        onChange={(e) =>
-                          setSheet((s) => ({
-                            ...s,
-                            custom: s.custom.map((r, n) =>
-                              n === i
-                                ? {
-                                    ...r,
-                                    values: {
-                                      ...r.values,
-                                      content: e.target.value,
-                                    },
-                                  }
-                                : r,
-                            ),
-                          }))
-                        }
-                      />
-                    </label>
-                    <button
-                      onClick={() => {
-                        setUndo(sheet);
-                        setSheet((s) => ({
-                          ...s,
-                          custom: s.custom.filter((_, n) => n !== i),
-                        }));
-                        setNotice('Section removed.');
-                      }}
-                    >
-                      Remove section
-                    </button>
-                  </div>
-                ))}
-                <button
-                  onClick={() =>
-                    setSheet((s) => ({ ...s, custom: [...s.custom, row()] }))
-                  }
-                >
-                  <Plus size={16} />
-                  Add custom section
-                </button>
-              </details>
-              <button
-                className="new-character"
-                onClick={() => setPending(blank())}
-              >
-                New character
-              </button>
+            <div
+              className={`character-document character-second ${characterPage === 2 ? 'active' : ''}`}
+            >
+              <CharacterPageTwo
+                fields={sheet.fields}
+                onChange={set}
+                fit={fit}
+                ready={ready}
+              />
             </div>
           </TabsContent>
           <TabsContent value="spells" keepMounted>
