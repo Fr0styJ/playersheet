@@ -321,3 +321,40 @@ main {
     overflow: hidden;
   }
 }
+/* A locally hosted historical book face keeps entered text consistent on every device. */
+@font-face {
+  font-family: 'Folio Book';
+  src: url('/fonts/im-fell-english.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+.original-sheet .fitted-entry {
+  font-family: 'Folio Book', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #202019;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+  caret-color: #155b4c;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-bottom: 2px;
+}
+.original-sheet input.fitted-entry {
+  line-height: normal;
+}
+.original-sheet textarea.fitted-entry {
+  padding-top: 0;
+  overflow-wrap: anywhere;
+}
+.modifier-row .fitted-entry {
+  padding: 0 1px;
+}
+@media print {
+  .original-sheet .fitted-entry {
+    color: #151510;
+  }
+}
+.extras input,.extras textarea{font-family:'Folio Book',Georgia,serif;color:#202019;font-size:19px}

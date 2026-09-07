@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { FittedEntry } from './fitted-entry';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Download, Upload, Printer, Plus, RotateCcw } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -193,7 +194,9 @@ export default function Home() {
     h = 24,
   ): CSSProperties => ({ left: x, top: y, width: w, height: h });
   const input = (key: string, x: number, y: number, w: number, h = 24) => (
-    <input
+    <FittedEntry
+      center={w <= 90}
+      maxSize={key === 'Character name' ? 21 : h > 28 ? 25 : 19}
       key={key}
       className="sheet-input"
       aria-label={key}
@@ -211,7 +214,8 @@ export default function Home() {
     h: number,
     line = 24,
   ) => (
-    <textarea
+    <FittedEntry
+      multiline
       key={key}
       className="sheet-input sheet-notes"
       aria-label={key}
@@ -245,7 +249,8 @@ export default function Home() {
     w: number,
     h = 24,
   ) => (
-    <input
+    <FittedEntry
+      center={key !== 'Weapon' && key !== 'Name' && key !== 'name'}
       key={`${kind}-${i}-${key}`}
       className="sheet-input"
       aria-label={`${kind} ${i + 1}: ${key}`}
@@ -370,7 +375,9 @@ export default function Home() {
                     {mods.map((m, j) => (
                       <label key={m}>
                         <span>{shortMods[i][j]}</span>
-                        <input
+                        <FittedEntry
+                          center
+                          maxSize={16}
                           aria-label={`${name}: ${m}`}
                           title={`${name}: ${m}`}
                           value={sheet.fields[abbr + ':' + m] ?? ''}
