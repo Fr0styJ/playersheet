@@ -515,3 +515,157 @@ main {
     display: block;
   }
 }
+/* Keep navigation above the document, independent of primitive orientation attributes. */
+.record-tabs {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch;
+  gap: 0;
+  min-width: 0;
+}
+.record-tab-list {
+  display: flex !important;
+  flex-direction: row !important;
+  align-self: stretch;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  gap: 0;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  border-bottom: 1px solid #b2c2b9;
+  border-radius: 0 !important;
+}
+.record-tab-list button {
+  flex: 0 0 auto;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #65726a;
+  box-shadow: none !important;
+  padding: 12px 23px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 46px;
+}
+.record-tab-list button[data-active] {
+  color: #183e31 !important;
+  border-bottom: 3px solid #183e31 !important;
+  background: transparent !important;
+}
+.record-tab-list button::after {
+  display: none !important;
+}
+.record-tabs > [data-slot='tabs-content'] {
+  width: 100%;
+  min-width: 0;
+}
+.spell-tools {
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0;
+  margin: 0;
+  border: 0;
+}
+.spell-tools nav {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0 12px 0 0;
+}
+.spell-tools ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.spell-tools output {
+  display: block;
+  min-width: 110px;
+  text-align: center;
+  font-size: 13px;
+  color: #536359;
+}
+.spell-tools button {
+  border: 0;
+  background: transparent;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 5px;
+  font-size: 13px;
+  color: #40584a;
+  padding: 8px 11px;
+}
+.spell-tools button:hover:not(:disabled) {
+  background: #dbe7df;
+}
+.spell-tools > button:last-child {
+  color: #7b6860;
+}
+.spell-help {
+  text-align: center;
+  font-size: 12px;
+  margin: 4px 0 18px;
+}
+.toolbar {
+  background: #f6f8f5;
+  box-shadow: none;
+  padding: 8px 20px;
+}
+.toolbar .tools button {
+  border: 0;
+  background: transparent;
+  color: #40584a;
+  font-size: 13px;
+  border-radius: 5px;
+}
+.toolbar .tools button:hover {
+  background: #dbe7df;
+}
+@media (max-width: 650px) {
+  .record-tab-list {
+    margin-left: 0 !important;
+  }
+  .record-tab-list button {
+    flex: 1;
+    padding: 10px 12px;
+  }
+  .spell-tools {
+    gap: 2px;
+    flex-wrap: wrap;
+    margin: 0 4px;
+  }
+  .spell-tools nav {
+    flex-basis: auto;
+    justify-content: center;
+    margin-right: 2px;
+  }
+  .spell-tools button {
+    min-height: 44px;
+    padding: 8px;
+  }
+  .spell-tools output {
+    min-width: 88px;
+  }
+  .spell-tools > button {
+    font-size: 12px;
+  }
+  .spell-help {
+    margin: 4px 10px 12px;
+  }
+  .toolbar {
+    padding: 6px 8px;
+  }
+  .toolbar .tools {
+    gap: 2px;
+  }
+}
+@media print {
+  .record-tabs {
+    display: block !important;
+  }
+  .record-tab-list,
+  .spell-tools,
+  .spell-help {
+    display: none !important;
+  }
+}

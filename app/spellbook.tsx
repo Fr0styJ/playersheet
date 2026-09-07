@@ -16,6 +16,16 @@ import {
   AlertDialogCancel,
 } from '@/components/ui/alert-dialog';
 
+export function spellLineValue(
+  fields: Record<string, string>,
+  prefix: string,
+  line: number,
+) {
+  const saved = fields[`${prefix}.line.${line}`];
+  if (saved !== undefined) return saved;
+  const old = (fields[`${prefix}.notes`] ?? '').split(/\r?\n/);
+  return line < 6 ? (old[line] ?? '') : old.slice(6).join(' · ');
+}
 export function pageCount(fields: Record<string, string>) {
   const n = Number(fields['spellbook.pages']);
   return Number.isInteger(n) && n >= 1 ? Math.min(n, 50) : 1;
@@ -224,15 +234,28 @@ export function Spellbook({
                       50,
                       27,
                     )}
-                    {field(
-                      prefix + '.notes',
-                      `Page ${p + 1}, spell ${i + 1} description`,
-                      x - 15,
-                      y + 46,
-                      289,
-                      266,
-                      true,
-                    )}
+                    {Array.from({ length: 7 }, (_, line) => (
+                      <FittedEntry
+                        key={line}
+                        aria-label={`Page ${p + 1}, spell ${i + 1}, detail line ${line + 1}`}
+                        title={`Spell ${i + 1}, detail line ${line + 1}`}
+                        className="sheet-input spell-detail-line"
+                        style={{
+                          left: x - 15,
+                          top: y + 46 + line * 38,
+                          width: 289,
+                          height: 35,
+                        }}
+                        maxSize={25}
+                        value={spellLineValue(fields, prefix, line)}
+                        onChange={(e) =>
+                          onChange({
+                            ...fields,
+                            [`${prefix}.line.${line}`]: e.target.value,
+                          })
+                        }
+                      />
+                    ))}
                   </div>
                 );
               })}
