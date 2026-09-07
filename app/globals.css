@@ -357,4 +357,161 @@ main {
     color: #151510;
   }
 }
-.extras input,.extras textarea{font-family:'Folio Book',Georgia,serif;color:#202019;font-size:19px}
+.extras input,
+.extras textarea {
+  font-family: 'Folio Book', Georgia, serif;
+  color: #202019;
+  font-size: 19px;
+}
+.record-tab-list {
+  height: auto !important;
+  gap: 8px;
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+.record-tab-list button {
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 1px solid #a5b7af;
+  background: #f7faf8;
+  font-family: 'Folio Book', Georgia, serif;
+  font-size: 19px;
+}
+.record-tab-list button[data-active] {
+  background: #183e31;
+  color: #fff;
+  border-color: #183e31;
+}
+.record-tabs [data-slot='tabs-content'][hidden] {
+  display: none !important;
+}
+.spell-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.spell-tools nav {
+  width: auto;
+  margin: 0 auto 0 0;
+}
+.spell-tools ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 12px;
+}
+.spell-tools output {
+  white-space: nowrap;
+}
+.spell-tools button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.spell-help {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 8px 0 16px;
+  color: #506459;
+}
+.spell-viewport {
+  width: 100%;
+  overflow: auto;
+}
+.spell-page {
+  display: none;
+  position: relative;
+  margin: 0 auto;
+}
+.spell-page.current {
+  display: block;
+}
+.spell-sheet {
+  width: 1103px;
+  height: 1426px;
+}
+.spell-sheet .original-image {
+  width: 1103px;
+  height: 1426px;
+}
+.spell-page-number {
+  position: absolute;
+  top: 1380px;
+  left: 470px;
+  width: 163px;
+  text-align: center;
+  font:
+    17px 'Folio Book',
+    Georgia,
+    serif;
+  color: #333;
+}
+.spell-sheet .fitted-entry {
+  padding-bottom: 0;
+}
+.spell-sheet textarea.fitted-entry {
+  padding-top: 0;
+}
+.spellbook {
+  min-width: 0;
+}
+@media (max-width: 650px) {
+  .record-tab-list {
+    margin-left: 6px !important;
+  }
+  .spell-tools,
+  .spell-help {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  .spell-tools button {
+    min-height: 44px;
+  }
+  .spell-tools nav {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+  .record-tab-list button {
+    font-size: 17px;
+    padding: 9px 15px;
+  }
+}
+@media print {
+  .record-tab-list,
+  .spell-tools,
+  .spell-help {
+    display: none !important;
+  }
+  .record-tabs {
+    display: block !important;
+  }
+  .record-tabs > [data-slot='tabs-content'][hidden] {
+    display: none !important;
+  }
+  .spell-viewport {
+    overflow: visible;
+    width: 210mm;
+    height: auto;
+  }
+  .spell-page,
+  .spell-page.current {
+    display: block;
+    width: 210mm !important;
+    height: 271.5mm !important;
+    break-after: page;
+    page-break-after: always;
+    margin: 0;
+  }
+  .spell-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  .original-sheet.spell-sheet {
+    transform: scale(0.71958) !important;
+  }
+  .spell-page-number {
+    display: block;
+  }
+}
