@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+
 import { Plus, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 import { FittedEntry } from './fitted-entry';
 import {
@@ -184,10 +184,9 @@ export function Spellbook({
               style={{ transform: `scale(${scale})` }}
               aria-label={`Spellbook page ${p + 1}`}
             >
-              <Image
-                unoptimized
+              <img
                 className="original-image"
-                src="/spellbook.png"
+                src={`${import.meta.env.BASE_URL}spellbook.png`}
                 alt="Spellbook sheet with shared spellcasting level and spell slots, and nine illustrated spell panels."
                 width={1103}
                 height={1426}

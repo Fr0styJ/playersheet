@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+
 import { FittedEntry } from './fitted-entry';
 export function BagOfHolding({
   fields,
@@ -57,10 +57,9 @@ export function BagOfHolding({
           style={{ transform: `scale(${scale})` }}
           aria-label="Bag of Holding inventory"
         >
-          <Image
-            unoptimized
+          <img
             className="original-image"
-            src="/bag-of-holding.png"
+            src={`${import.meta.env.BASE_URL}bag-of-holding.png`}
             width={1103}
             height={1426}
             alt="Bag of Holding sheet with owner, bag type, capacity, current value, location and 25 inventory rows."

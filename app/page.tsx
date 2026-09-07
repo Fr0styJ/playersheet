@@ -1,5 +1,5 @@
 'use client';
-import Image from 'next/image';
+
 import { BagOfHolding } from './bag-of-holding';
 import { CharacterPageTwo } from './character-page-two';
 import { Spellbook } from './spellbook';
@@ -388,10 +388,9 @@ export default function Home() {
                     style={{ transform: `scale(${scale})` }}
                     aria-label="AD&D 2nd Edition character record sheet"
                   >
-                    <Image
-                      unoptimized
+                    <img
                       className="original-image"
-                      src="/character-sheet.jpg"
+                      src={`${import.meta.env.BASE_URL}character-sheet.jpg`}
                       width="1146"
                       height="1524"
                       alt="Unofficial AD&D 2nd Edition character record sheet. Editable character, abilities, movement, saving throws, armor, hit points, weapons and skills fields follow."

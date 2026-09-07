@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+
 import { Checkbox } from '@/components/ui/checkbox';
 import { FittedEntry } from './fitted-entry';
 type Point = [number, number];
@@ -116,10 +116,9 @@ export function CharacterPageTwo({
             style={{ transform: `scale(${scale})` }}
             aria-label="Character sheet page 2: gear, supplies, treasure, notes and magic"
           >
-            <Image
-              unoptimized
+            <img
               className="original-image"
-              src="/character-page-two.jpg"
+              src={`${import.meta.env.BASE_URL}character-page-two.jpg`}
               width={736}
               height={952}
               alt="Original second character sheet page with gear, supplies, experience, treasure, a map grid, and magic."
@@ -328,4 +327,3 @@ export function CharacterPageTwo({
     </div>
   );
 }
-
